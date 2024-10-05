@@ -1,0 +1,6 @@
+pip-tools
+pandas
+streamlit
+openpyxl
+fuzzywuzzy
+xlsxwriter
