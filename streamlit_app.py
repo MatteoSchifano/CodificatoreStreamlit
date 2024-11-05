@@ -58,7 +58,6 @@ if st.button('Codifica'):
         cod = st.session_state['cod']
         st.write('Sto codificando, attendi un attimo...')
         cod.aperte.generate_c()
-        cod.aperte.get_preprocessed_data()
         cod.codifica()
         output = cod.aperte.to_excel()
         st.write(

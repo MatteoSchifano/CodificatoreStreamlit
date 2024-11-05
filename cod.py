@@ -81,11 +81,6 @@ class DfExcel:
             return ''
         return x
 
-    def get_preprocessed_data(self):
-        df = self.df.apply(lambda x: x.apply(
-            lambda y: self.clear_str(y)) if x.dtype == 'object' else x)
-        return df
-
     def to_excel(self):
         # Resetta l'indice se è stato impostato
         self.df.reset_index(inplace=True, drop=True)
@@ -129,6 +124,8 @@ class Codificatore:
 
     def confronta(self, x: str, codice: pd.DataFrame, treshold=0.7):
         # Se il valore è None o è una stringa vuota, restituisci None o un valore specifico
+        x = self.aperte.clear_str(x)
+        
         if pd.isnull(x) or x == '':
             return None  # O restituisci un valore diverso se necessario, ad esempio self.altro
 
@@ -148,7 +145,6 @@ class Codificatore:
             lambda x: self.confronta(str(x), self.codice, self.treshold))
         return sub_df
 
-
     def codifica(self):
         # Sostituisci i valori None/NaN con stringhe vuote
         self.aperte.df = self.aperte.df.fillna('')
@@ -166,5 +162,6 @@ class Codificatore:
             # Controlla se hai due colonne da codificare (colonna e la sua colonna "_c")
             if len(ls) == 2:
                 # Applica la codifica al set di colonne
-                self.aperte.df[ls] = self._codifica_set(self.aperte.df[ls].copy())
+                self.aperte.df[ls] = self._codifica_set(
+                    self.aperte.df[ls].copy())
                 ls = []  # Resetta ls dopo aver codificato il set
